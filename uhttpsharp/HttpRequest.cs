@@ -33,9 +33,9 @@ namespace uhttpsharp
         private readonly Uri _uri;
         private readonly string[] _requestParameters;
         private readonly IHttpHeaders _queryString;
-        private readonly IHttpHeaders _post;
+        private readonly byte[] _post;
 
-        public HttpRequest(IHttpHeaders headers, HttpMethods method, string protocol, Uri uri, string[] requestParameters, IHttpHeaders queryString, IHttpHeaders post)
+        public HttpRequest(IHttpHeaders headers, HttpMethods method, string protocol, Uri uri, string[] requestParameters, IHttpHeaders queryString, byte[] post)
         {
             _headers = headers;
             _method = method;
@@ -71,7 +71,7 @@ namespace uhttpsharp
             get { return _requestParameters; }
         }
 
-        public IHttpHeaders Post
+        public byte[] Post
         {
             get { return _post; }
         }
@@ -108,7 +108,7 @@ namespace uhttpsharp
 
         string[] RequestParameters { get; }
 
-        IHttpHeaders Post { get; }
+        byte[] Post { get; }
 
         IHttpHeaders QueryString { get; }
 
