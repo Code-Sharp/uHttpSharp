@@ -52,8 +52,7 @@ namespace uhttpsharp
             _requestHandlers = requestHandlers;
             _requestProvider = requestProvider;            
 
-            //_stream = new BufferedStream(_client.Stream);
-            _stream = _client.Stream;
+            _stream = new BufferedStream(_client.Stream);
 
             Logger.InfoFormat("Got Client {0}", _remoteEndPoint);
 
