@@ -91,6 +91,7 @@
     <Compile Include="RequestProviders\IHttpRequestProvider.cs" />
     <Compile Include="TaskFactoryExtensions.cs" />
     <Compile Include="Clients\TcpClientAdapter.cs" />
+    <Compile Include="Utilities\HttpStreamReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

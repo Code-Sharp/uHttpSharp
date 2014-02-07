@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using uhttpsharp.Clients;
 using uhttpsharp.Headers;
 using uhttpsharp.RequestProviders;
+using uhttpsharp.Utilities;
 
 namespace uhttpsharp
 {
@@ -66,7 +67,8 @@ namespace uhttpsharp
                 {
                     // TODO : Extract read and write limit to configuration.
                     var requestStream = new LimitedStream(_stream, readLimit: 1024*1024, writeLimit: 1024*1024);
-                    var request = await _requestProvider.Provide(new StreamReader(requestStream)).ConfigureAwait(false);
+                    
+                    var request = await _requestProvider.Provide(new HttpStreamReader(requestStream, Encoding.UTF8)).ConfigureAwait(false);
 
                     if (request != null)
                     {

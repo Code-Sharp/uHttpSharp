@@ -11,7 +11,7 @@ namespace uhttpsharp.RequestProviders
         /// </summary>
         /// <param name="streamReader"></param>
         /// <returns></returns>
-        Task<IHttpRequest> Provide(StreamReader streamReader);
+        Task<IHttpRequest> Provide(uhttpsharp.Utilities.HttpStreamReader streamReader);
 
     }
 }

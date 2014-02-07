@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using uhttpsharp.Headers;
+using uhttpsharp.Utilities;
 
 namespace uhttpsharp.RequestProviders
 {
@@ -10,7 +11,7 @@ namespace uhttpsharp.RequestProviders
     {
         private static readonly char[] Separators = { '/' };
 
-        public async Task<IHttpRequest> Provide(StreamReader streamReader)
+        public async Task<IHttpRequest> Provide(HttpStreamReader streamReader)
         {
             // parse the http request
             var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
@@ -43,7 +44,7 @@ namespace uhttpsharp.RequestProviders
             }
 
             IHttpHeaders headers = new HttpHeaders(headersRaw);
-            IHttpHeaders post = await GetPostData(streamReader, headers);
+            byte[] post = await GetPostData(streamReader, headers);
 
             return new HttpRequest(headers, httpMethod, httpProtocol, uri,
                 uri.OriginalString.Split(Separators, StringSplitOptions.RemoveEmptyEntries), queryString, post);
@@ -64,17 +65,19 @@ namespace uhttpsharp.RequestProviders
             return queryString;
         }
 
-        private static async Task<IHttpHeaders> GetPostData(StreamReader streamReader, IHttpHeaders headers)
+        private static async Task<byte[]> GetPostData(HttpStreamReader streamReader, IHttpHeaders headers)
         {
             int postContentLength;
-            IHttpHeaders post;
+            byte[] post;
             if (headers.TryGetByName("content-length", out postContentLength))
             {
-                post = await HttpHeaders.FromPost(streamReader, postContentLength);
+                byte[] buffer = new byte[postContentLength];
+                var readBytes = await streamReader.BaseStream.ReadAsync(buffer, 0, postContentLength);
+                post = buffer;
             }
             else
             {
-                post = EmptyHttpHeaders.Empty;
+                post = null;
             }
             return post;
         }
