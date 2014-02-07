@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using uhttpsharp.Headers;
+using uhttpsharp.Utilities;
 
 namespace uhttpsharp.RequestProviders
 {
@@ -10,7 +11,7 @@ namespace uhttpsharp.RequestProviders
     {
         private static readonly char[] Separators = { '/' };
 
-        public async Task<IHttpRequest> Provide(StreamReader streamReader)
+        public async Task<IHttpRequest> Provide(HttpStreamReader streamReader)
         {
             // parse the http request
             var request = await streamReader.ReadLineAsync().ConfigureAwait(false);
@@ -64,7 +65,7 @@ namespace uhttpsharp.RequestProviders
             return queryString;
         }
 
-        private static async Task<byte[]> GetPostData(StreamReader streamReader, IHttpHeaders headers)
+        private static async Task<byte[]> GetPostData(HttpStreamReader streamReader, IHttpHeaders headers)
         {
             int postContentLength;
             byte[] post;
