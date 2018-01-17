@@ -89,7 +89,7 @@ namespace uhttpsharp
                         if (context.Response != null)
                         {
                             var streamWriter = new StreamWriter(limitedStream) { AutoFlush = false };
-                            
+                            streamWriter.NewLine = "\r\n";
                             await WriteResponse(context, streamWriter).ConfigureAwait(false);
                             await limitedStream.ExplicitFlushAsync().ConfigureAwait(false);
 
