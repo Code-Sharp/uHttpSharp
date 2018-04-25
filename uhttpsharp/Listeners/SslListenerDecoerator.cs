@@ -22,7 +22,7 @@ namespace uhttpsharp.Listeners
 
         public void Dispose()
         {
-            _child?.Dispose();
+            _child.Dispose();
         }
     }
 }
