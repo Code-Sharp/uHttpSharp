@@ -26,6 +26,8 @@ namespace uhttpsharp.Handlers
     {
         private readonly IDictionary<string, IHttpRequestHandler> _handlers = new Dictionary<string, IHttpRequestHandler>(StringComparer.InvariantCultureIgnoreCase);
 
+        private readonly static string StateLevelPropertyName = "HttpRouteLevel";
+
         public HttpRouter With(string function, IHttpRequestHandler handler)
         {
             _handlers.Add(function, handler);
@@ -37,9 +39,16 @@ namespace uhttpsharp.Handlers
         {
             string function = string.Empty;
 
-            if (context.Request.RequestParameters.Length > 0)
+            int index = GetRouteLevel(context.State);
+
+            if (context.Request.RequestParameters.Length > 0 && index < context.Request.RequestParameters.Length)
             {
-                function = context.Request.RequestParameters[0];
+                function = context.Request.RequestParameters[index];
+                if (!string.IsNullOrEmpty(function))
+                {
+                    //we are handling this path
+                    IncreaseRouteLevel(context.State);
+                }
             }
 
             IHttpRequestHandler value;
@@ -51,6 +60,20 @@ namespace uhttpsharp.Handlers
 
             // Route not found, Call next.
             return nextHandler();
+        }
+
+        private int GetRouteLevel(dynamic state)
+        {
+            if (!((IDictionary<String, object>)state).ContainsKey(StateLevelPropertyName))
+            {
+                state.HttpRouteLevel = 0;
+            }
+            return state.HttpRouteLevel;
+        }
+
+        private void IncreaseRouteLevel(dynamic state)
+        {
+            state.HttpRouteLevel = state.HttpRouteLevel + 1;
         }
     }
 }
