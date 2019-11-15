@@ -21,7 +21,7 @@ namespace uhttpsharp.Clients
             _sslStream = new SslStream(_child.Stream);
         }
 
-        public async Task AuthenticateAsServer()
+        public async Task InitializeStream()
         {
             Task timeout = Task.Delay(TimeSpan.FromSeconds(10));
             if (timeout == await Task.WhenAny(_sslStream.AuthenticateAsServerAsync(_certificate, false, SslProtocols.Tls, true), timeout).ConfigureAwait(false))

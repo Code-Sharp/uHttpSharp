@@ -1,5 +1,6 @@
 using System.Dynamic;
 using System.Net;
+using uhttpsharp.Clients;
 using uhttpsharp.Headers;
 
 namespace uhttpsharp
@@ -7,13 +8,13 @@ namespace uhttpsharp
     internal class HttpContext : IHttpContext
     {
         private readonly IHttpRequest _request;
-        private readonly EndPoint _remoteEndPoint;
+        private readonly IClient _client;
         private readonly ICookiesStorage _cookies;
         private readonly ExpandoObject _state = new ExpandoObject();
-        public HttpContext(IHttpRequest request, EndPoint remoteEndPoint)
+        public HttpContext(IHttpRequest request, IClient client)
         {
             _request = request;
-            _remoteEndPoint = remoteEndPoint;
+            _client = client;
             _cookies = new CookiesStorage(_request.Headers.GetByNameOrDefault("cookie", string.Empty));
         }
 
@@ -29,14 +30,18 @@ namespace uhttpsharp
             get { return _cookies; }
         }
 
-
         public dynamic State
         {
             get { return _state; }
         }
+
+        public IClient Client {
+            get { return _client; }
+        }
+
         public EndPoint RemoteEndPoint
         {
-            get { return _remoteEndPoint; }
+            get { return _client.RemoteEndPoint; }
         }
     }
 }

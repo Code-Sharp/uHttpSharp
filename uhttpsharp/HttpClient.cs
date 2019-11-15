@@ -60,21 +60,13 @@ namespace uhttpsharp
             UpdateLastOperationTime();
         }
 
-        private async Task InitializeStream()
-        {
-            if (Client is ClientSslDecorator)
-            {
-                await ((ClientSslDecorator)Client).AuthenticateAsServer().ConfigureAwait(false);
-            }
-
-            _stream = new BufferedStream(_client.Stream, 8096);
-        }
-
         private async void Process()
         {
             try
             {
-                await InitializeStream();
+                await _client.InitializeStream().ConfigureAwait(false);
+        
+                _stream = new BufferedStream(_client.Stream, 8096);
 
                 while (_client.Connected)
                 {
@@ -89,7 +81,7 @@ namespace uhttpsharp
                     {
                         UpdateLastOperationTime();
 
-                        var context = new HttpContext(request, _client.RemoteEndPoint);
+                        var context = new HttpContext(request, _client);
 
                         Logger.InfoFormat("{1} : Got request {0}", request.Uri, _client.RemoteEndPoint);
 

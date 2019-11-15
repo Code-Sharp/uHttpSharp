@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace uhttpsharp.Clients
 {
@@ -44,6 +45,10 @@ namespace uhttpsharp.Clients
         public EndPoint RemoteEndPoint
         {
             get { return _client.Client.RemoteEndPoint; }
+        }
+
+        public Task InitializeStream() {
+            return Task.Factory.GetCompleted();
         }
     }
 }

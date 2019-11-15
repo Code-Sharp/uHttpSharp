@@ -56,7 +56,7 @@
     <Compile Include="App_Packages\LibLog.3.1\LibLog.cs" />
     <Compile Include="Attributes\IModelBinding.cs" />
     <Compile Include="Attributes\HttpMethodAttribute.cs" />
-    <Compile Include="Clients\ClientSslDecoerator.cs" />
+    <Compile Include="Clients\ClientSslDecorator.cs" />
     <Compile Include="Clients\IClient.cs" />
     <Compile Include="Controllers\ErrorContainer.cs" />
     <Compile Include="Controllers\IErrorContainer.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="IHttpMethodProvider.cs" />
     <Compile Include="LimitedStream.cs" />
     <Compile Include="Listeners\IHttpListener.cs" />
-    <Compile Include="Listeners\SslListenerDecoerator.cs" />
+    <Compile Include="Listeners\SslListenerDecorator.cs" />
     <Compile Include="Listeners\TcpListenerAdapter.cs" />
     <Compile Include="ModelBinders\IModelBinder.cs" />
     <Compile Include="ModelBinders\JsonModelBinder.cs" />
