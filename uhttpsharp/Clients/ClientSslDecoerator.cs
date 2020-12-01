@@ -24,7 +24,7 @@ namespace uhttpsharp.Clients
         public async Task AuthenticateAsServer()
         {
             Task timeout = Task.Delay(TimeSpan.FromSeconds(10));
-            if (timeout == await Task.WhenAny(_sslStream.AuthenticateAsServerAsync(_certificate, false, SslProtocols.Tls, true), timeout).ConfigureAwait(false))
+            if (timeout == await Task.WhenAny(_sslStream.AuthenticateAsServerAsync(_certificate, false, SslProtocols.Tls12, true), timeout).ConfigureAwait(false))
             {
                 throw new TimeoutException("SSL Authentication Timeout");
             }
